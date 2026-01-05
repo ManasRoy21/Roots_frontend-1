@@ -1,0 +1,54 @@
+.sso-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 12px 24px;
+  font-size: 16px;
+  font-weight: 500;
+  font-family: inherit;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  background-color: white;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  width: 100%;
+
+  &:hover:not(.sso-button-disabled) {
+    background-color: #f9fafb;
+    border-color: #9ca3af;
+  }
+
+  &:active:not(.sso-button-disabled) {
+    background-color: #f3f4f6;
+  }
+
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+  }
+
+  &.sso-button-google {
+    /* Google-specific styles if needed */
+  }
+
+  &.sso-button-apple {
+    color: #000;
+  }
+
+  &.sso-button-disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+.sso-button-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.sso-button-label {
+  color: #1f2937;
+}

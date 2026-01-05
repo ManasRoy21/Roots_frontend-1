@@ -1,0 +1,100 @@
+@use '../styles/variables' as *;
+
+.tree-node {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 40px;
+  position: relative;
+}
+
+/* Parents Section */
+.tree-node-parents {
+  display: flex;
+  gap: 60px;
+  justify-content: center;
+  align-items: flex-end;
+}
+
+.tree-node-parent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Current Member and Spouse Section */
+.tree-node-current {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.tree-node-member-row {
+  display: flex;
+  gap: 40px;
+  align-items: center;
+}
+
+.tree-node-member {
+  display: flex;
+  justify-content: center;
+}
+
+.tree-node-spouse {
+  display: flex;
+  justify-content: center;
+}
+
+/* Children Section */
+.tree-node-children {
+  display: flex;
+  gap: 40px;
+  justify-content: center;
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+
+.tree-node-child {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .tree-node {
+    gap: 30px;
+  }
+
+  .tree-node-parents {
+    gap: 40px;
+  }
+
+  .tree-node-member-row {
+    gap: 30px;
+  }
+
+  .tree-node-children {
+    gap: 30px;
+  }
+}
+
+@media (max-width: 480px) {
+  .tree-node {
+    gap: 20px;
+  }
+
+  .tree-node-parents {
+    gap: 20px;
+    flex-direction: column;
+  }
+
+  .tree-node-member-row {
+    gap: 20px;
+    flex-direction: column;
+  }
+
+  .tree-node-children {
+    gap: 20px;
+  }
+}

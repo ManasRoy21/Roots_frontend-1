@@ -1,0 +1,53 @@
+.greeting-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 2rem;
+}
+
+.greeting-content {
+  flex: 1;
+}
+
+.greeting-title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin: 0 0 0.5rem 0;
+  line-height: 1.2;
+}
+
+.greeting-subtitle {
+  font-size: 1rem;
+  color: #666;
+  margin: 0;
+  line-height: 1.5;
+}
+
+.greeting-date {
+  font-size: 0.9375rem;
+  color: #666;
+  font-weight: 500;
+  white-space: nowrap;
+  margin-left: 1rem;
+}
+
+/* Responsive Design */
+@media (max-width: 767px) {
+  .greeting-container {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .greeting-title {
+    font-size: 1.5rem;
+  }
+
+  .greeting-subtitle {
+    font-size: 0.9375rem;
+  }
+
+  .greeting-date {
+    margin-left: 0;
+  }
+}

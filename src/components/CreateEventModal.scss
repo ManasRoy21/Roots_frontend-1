@@ -1,0 +1,365 @@
+@use '../styles/variables' as *;
+@use '../styles/mixins' as *;
+@use 'sass:color';
+
+/* Create Event Modal Overlay */
+.create-event-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 1rem;
+}
+
+/* Modal Content */
+.create-event-modal {
+  background: white;
+  border-radius: $spacing-md;
+  width: 100%;
+  max-width: 700px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+/* Modal Header */
+.create-event-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 2rem 2rem 1.5rem;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.create-event-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #111827;
+  margin: 0 0 0.5rem 0;
+}
+
+.create-event-subtitle {
+  font-size: 0.9375rem;
+  color: #6b7280;
+  margin: 0;
+}
+
+.create-event-close {
+  background: none;
+  border: none;
+  color: #9ca3af;
+  cursor: pointer;
+  padding: 0.25rem;
+  transition: color 0.2s;
+  flex-shrink: 0;
+  margin-left: 1rem;
+
+  &:hover {
+    color: #374151;
+  }
+}
+
+/* Modal Body */
+.create-event-body {
+  padding: 2rem;
+}
+
+/* Form Groups */
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-label {
+  display: block;
+  font-size: $font-size-sm;
+  font-weight: 600;
+  color: #374151;
+  margin-bottom: 0.5rem;
+}
+
+.form-input {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 1px solid #d1d5db;
+  border-radius: $border-radius-md;
+  font-size: 0.9375rem;
+  color: #111827;
+  transition: all 0.2s;
+
+  &:focus {
+    outline: none;
+    border-color: $primary-color;
+    box-shadow: 0 0 0 3px rgba(13, 115, 119, 0.1);
+  }
+
+  &::placeholder {
+    color: #9ca3af;
+  }
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+/* Input with Icon */
+.input-with-icon {
+  position: relative;
+  display: flex;
+  align-items: center;
+
+  svg {
+    position: absolute;
+    left: 1rem;
+    color: #9ca3af;
+    pointer-events: none;
+  }
+
+  .form-input {
+    padding-left: 3rem;
+  }
+}
+
+/* Category Buttons */
+.category-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.category-btn {
+  padding: 0.625rem 1.25rem;
+  background: white;
+  border: 1.5px solid #d1d5db;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  color: #374151;
+
+  &:hover {
+    border-color: $primary-color;
+    background: #f0fdfa;
+  }
+
+  &.active {
+    border-color: $primary-color;
+    background: #f0fdfa;
+    color: $primary-color;
+  }
+}
+
+/* Guest Options */
+.guest-option {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  padding: 1rem;
+  border: 2px solid #e5e7eb;
+  border-radius: $border-radius-md;
+  cursor: pointer;
+  transition: all 0.2s;
+  margin-bottom: 0.75rem;
+
+  &:hover {
+    border-color: $primary-color;
+    background: #f9fafb;
+  }
+
+  &.active {
+    border-color: $primary-color;
+    background: #f0fdfa;
+  }
+}
+
+.guest-option-radio {
+  flex-shrink: 0;
+  padding-top: 0.125rem;
+}
+
+.radio-circle {
+  width: 20px;
+  height: 20px;
+  border: 2px solid #d1d5db;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+
+  &.checked {
+    border-color: $primary-color;
+  }
+}
+
+.radio-dot {
+  width: 10px;
+  height: 10px;
+  background: $primary-color;
+  border-radius: 50%;
+}
+
+.guest-option-content {
+  flex: 1;
+}
+
+.guest-option-title {
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: #111827;
+  margin-bottom: 0.25rem;
+}
+
+.guest-option-subtitle {
+  font-size: $font-size-sm;
+  color: #6b7280;
+}
+
+/* Guest Search */
+.guest-search {
+  position: relative;
+  display: flex;
+  align-items: center;
+  margin-top: 1rem;
+
+  svg {
+    position: absolute;
+    left: 1rem;
+    color: #9ca3af;
+    pointer-events: none;
+  }
+}
+
+.guest-search-input {
+  width: 100%;
+  padding: 0.75rem 1rem 0.75rem 3rem;
+  border: 1px solid #d1d5db;
+  border-radius: $border-radius-md;
+  font-size: 0.9375rem;
+  color: #111827;
+  transition: all 0.2s;
+
+  &:focus {
+    outline: none;
+    border-color: $primary-color;
+    box-shadow: 0 0 0 3px rgba(13, 115, 119, 0.1);
+  }
+
+  &::placeholder {
+    color: #9ca3af;
+  }
+}
+
+/* Invite from Other Trees */
+.invite-other-trees {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 0;
+  background: none;
+  border: none;
+  color: $primary-color;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  margin-top: 1rem;
+
+  &:hover {
+    color: color.adjust($primary-color, $lightness: -10%);
+  }
+
+  svg {
+    color: currentColor;
+  }
+}
+
+/* Modal Footer */
+.create-event-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  padding: 1.5rem 2rem;
+  border-top: 1px solid #e5e7eb;
+}
+
+.btn-cancel {
+  padding: 0.75rem 1.5rem;
+  background: white;
+  border: 1px solid #d1d5db;
+  border-radius: $border-radius-md;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  color: #374151;
+  cursor: pointer;
+  transition: all 0.2s;
+
+  &:hover {
+    background: #f9fafb;
+    border-color: #9ca3af;
+  }
+}
+
+.btn-create {
+  padding: 0.75rem 1.5rem;
+  background: $primary-color;
+  border: none;
+  border-radius: $border-radius-md;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  color: white;
+  cursor: pointer;
+  transition: all 0.2s;
+
+  &:hover {
+    background: color.adjust($primary-color, $lightness: -10%);
+  }
+
+  &:disabled {
+    background: #9ca3af;
+    cursor: not-allowed;
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 640px) {
+  .create-event-modal {
+    max-height: 95vh;
+  }
+
+  .create-event-header {
+    padding: 1.5rem 1.5rem 1rem;
+  }
+
+  .create-event-body {
+    padding: 1.5rem;
+  }
+
+  .create-event-footer {
+    padding: 1rem 1.5rem;
+  }
+
+  .create-event-title {
+    font-size: 1.25rem;
+  }
+
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+
+  .category-buttons {
+    flex-direction: column;
+  }
+
+  .category-btn {
+    width: 100%;
+  }
+}

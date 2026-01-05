@@ -1,0 +1,29 @@
+@use 'variables' as *;
+
+// Button Base Mixin
+@mixin button-base {
+  font-family: inherit;
+  font-weight: 600;
+  border: none;
+  border-radius: $border-radius-md;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+}
+
+// Button Size Mixin
+@mixin button-size($padding-y, $padding-x, $font-size) {
+  padding: $padding-y $padding-x;
+  font-size: $font-size;
+}
+
+// Focus Visible Mixin
+@mixin focus-visible {
+  &:focus-visible {
+    outline: 3px solid $primary-color;
+    outline-offset: 2px;
+  }
+}
