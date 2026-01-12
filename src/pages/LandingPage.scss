@@ -212,35 +212,50 @@
 /* Header & Navigation */
 .landing-header {
   background-color: #ffffff;
-  padding: $spacing-md 0;
-  border-bottom: 1px solid #e5e7eb;
+  height: 100px; /* Increased navbar height to accommodate bigger logo */
+  border-bottom: 1px solid #e5e7eb; /* Grey line below navbar */
   position: sticky;
   top: 0;
   z-index: 100;
   box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center; /* Center content vertically within fixed height */
 }
 
 .landing-container {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 0 $spacing-lg;
+  padding: 0 4px; /* Even less padding - almost touching edges */
 }
 
 .landing-nav {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: space-between; /* Push logo left, buttons right */
+  width: 100%;
+  padding: 0; /* Remove any internal padding */
 }
 
 .landing-logo {
   display: flex;
   align-items: center;
+  height: 95px; /* Big logo height */
+  margin-right: 60px; /* More space between logo and nav links */
+  
+  img {
+    height: 100%; /* Logo fills the container height */
+    width: auto; /* Maintain aspect ratio */
+    object-fit: contain; /* Ensure logo fits within bounds */
+  }
 }
 
 .landing-nav-links {
   display: flex;
   align-items: center;
+  justify-content: center; /* Center the nav links */
   gap: 40px;
+  flex: 1; /* Take available space and center content */
+  margin: 0 60px; /* More space from logo and buttons */
 
   a {
     color: #333333;
@@ -257,7 +272,9 @@
 
 .landing-nav-actions {
   display: flex;
+  align-items: center;
   gap: $spacing-md;
+  margin-left: 80px; /* Even more space - push buttons to extreme right */
 }
 
 /* Hero Section */

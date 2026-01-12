@@ -15,7 +15,7 @@ const LandingPage: React.FC = () => {
             <div className="landing-container">
               <div className="landing-nav">
                 <div className="landing-logo">
-                  <RootsLogo width={48} height={48} />
+                  <RootsLogo />
                 </div>
                 <nav className="landing-nav-links">
                   <a href="#tree">Tree</a>

@@ -7,17 +7,19 @@ interface RootsLogoProps {
   className?: string;
 }
 
-const RootsLogo: React.FC<RootsLogoProps> = ({ width = 40, height = 40, className = '' }) => {
-  return (
-    <img 
-      src={rootsLogoIcon}
-      alt="Roots Logo"
-      width={width}
-      height={height}
-      className={className}
-      style={{ display: 'block' }}
-    />
-  );
+const RootsLogo: React.FC<RootsLogoProps> = ({ width, height, className = '' }) => {
+  const imgProps: React.ImgHTMLAttributes<HTMLImageElement> = {
+    src: rootsLogoIcon,
+    alt: "Roots Logo",
+    className,
+    style: { display: 'block' }
+  };
+
+  // Only apply width/height if explicitly provided
+  if (width !== undefined) imgProps.width = width;
+  if (height !== undefined) imgProps.height = height;
+
+  return <img {...imgProps} />;
 };
 
 export default RootsLogo;
