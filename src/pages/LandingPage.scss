@@ -1,0 +1,1319 @@
+@use '../styles/variables' as *;
+@use '../styles/mixins' as *;
+@use 'sass:color';
+
+/* Landing Page Styles - Modern & Professional */
+
+.landing-page {
+  min-height: 100vh;
+  background-color: #ffffff;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  /* Enable 3D context for child elements */
+  transform-style: preserve-3d;
+  perspective: 1000px;
+
+  /* 3D Enhancement Classes */
+  &.transforms-enabled {
+    --perspective: 1000px;
+    --lighting-direction: 135deg;
+    --shadow-color: rgba(0, 0, 0, 0.15);
+    --shadow-hover-color: rgba(0, 0, 0, 0.25);
+    --depth-base: 10px;
+    --depth-hover: 20px;
+  }
+
+  /* Lighting and Shadow Effects */
+  .shadow-3d-light {
+    box-shadow: 
+      0 4px 8px -2px var(--shadow-color),
+      0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  }
+
+  .shadow-3d-medium {
+    box-shadow: 
+      0 10px 25px -5px var(--shadow-color),
+      0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  }
+
+  .shadow-3d-heavy {
+    box-shadow: 
+      0 25px 50px -12px var(--shadow-color),
+      0 10px 20px -5px rgba(0, 0, 0, 0.1);
+  }
+
+  .shadow-3d-hover {
+    transition: box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+    &:hover {
+      box-shadow: 
+        0 25px 50px -12px var(--shadow-hover-color),
+        0 15px 30px -10px rgba(0, 0, 0, 0.15);
+    }
+  }
+
+  /* 3D Lighting Effects */
+  .lighting-3d-ambient {
+    background: linear-gradient(var(--lighting-direction), 
+      rgba(255, 255, 255, 0.05) 0%, 
+      transparent 50%, 
+      rgba(0, 0, 0, 0.02) 100%);
+  }
+
+  .lighting-3d-directional {
+    position: relative;
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: -2px;
+      left: -2px;
+      right: -2px;
+      bottom: -2px;
+      background: linear-gradient(var(--lighting-direction), 
+        rgba(255, 255, 255, 0.1) 0%, 
+        transparent 30%, 
+        rgba(0, 0, 0, 0.05) 100%);
+      border-radius: inherit;
+      z-index: -1;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    &:hover::before {
+      opacity: 1;
+    }
+  }
+
+  /* Theme Consistency for 3D Elements */
+  .theme-3d-teal {
+    --primary-3d-color: #{$primary-color};
+    --primary-3d-light: #14a085;
+    --primary-3d-shadow: rgba(13, 115, 119, 0.3);
+  }
+
+  .theme-3d-light {
+    --bg-3d-color: #ffffff;
+    --bg-3d-shadow: rgba(0, 0, 0, 0.1);
+    --text-3d-color: #1f2937;
+  }
+
+  .theme-3d-dark {
+    --bg-3d-color: #1f2937;
+    --bg-3d-shadow: rgba(0, 0, 0, 0.3);
+    --text-3d-color: #ffffff;
+  }
+
+  /* 3D Transform Utilities */
+  .transform-3d-lift {
+    transform: translateZ(var(--depth-base));
+
+    &:hover {
+      transform: translateZ(var(--depth-hover));
+    }
+  }
+
+  .transform-3d-tilt {
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+    &:hover {
+      transform: rotateX(-5deg) rotateY(5deg) translateZ(10px);
+    }
+  }
+
+  /* Performance Optimizations for 3D */
+  .will-change-3d {
+    will-change: transform, box-shadow, opacity;
+  }
+
+  .gpu-accelerated {
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    perspective: 1000px;
+  }
+}
+
+/* 3D Hero Section Integration */
+.landing-hero-3d {
+  /* Remove default hero padding since Hero3DSection handles its own layout */
+  padding: 0;
+  background: transparent;
+  position: relative;
+  z-index: 1;
+}
+
+/* 3D Features Grid Integration */
+.features-3d-enhanced {
+  /* Ensure proper 3D context */
+  transform-style: preserve-3d;
+  perspective: 1200px;
+
+  .feature-card-3d {
+    /* Integrate with existing feature card styles */
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    will-change: transform;
+
+    &:hover {
+      /* Enhanced hover effects for 3D cards */
+      box-shadow: 
+        0 25px 50px -12px var(--shadow-hover-color),
+        0 0 0 1px rgba(255, 255, 255, 0.1);
+    }
+  }
+}
+
+/* 3D Statistics Integration */
+.story-stats-3d,
+.stats-grid-3d {
+  /* Ensure proper 3D context for statistics */
+  transform-style: preserve-3d;
+  perspective: 800px;
+
+  .stat-3d-item {
+    /* Integrate with existing stat styles */
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    will-change: transform;
+
+    &:hover {
+      transform: translateY(-5px) rotateX(5deg);
+      box-shadow: 0 15px 30px -10px var(--shadow-color);
+    }
+  }
+}
+
+/* 3D Testimonials Integration */
+.landing-testimonials-3d {
+  /* Replace testimonials section with 3D version */
+  padding: 100px 0;
+  background-color: #ffffff;
+  transform-style: preserve-3d;
+  perspective: 1000px;
+}
+
+/* 3D CTA Integration */
+.landing-cta-3d {
+  /* Replace CTA section with 3D version */
+  padding: 120px 0;
+  background: linear-gradient(var(--lighting-direction), $primary-color 0%, #14a085 100%);
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(circle at 30% 20%, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
+    pointer-events: none;
+  }
+}
+
+/* Header & Navigation */
+.landing-header {
+  background-color: #ffffff;
+  height: 100px; /* Increased navbar height to accommodate bigger logo */
+  border-bottom: 1px solid #e5e7eb; /* Grey line below navbar */
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center; /* Center content vertically within fixed height */
+}
+
+.landing-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 4px; /* Even less padding - almost touching edges */
+}
+
+.landing-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between; /* Push logo left, buttons right */
+  width: 100%;
+  padding: 0; /* Remove any internal padding */
+}
+
+.landing-logo {
+  display: flex;
+  align-items: center;
+  height: 95px; /* Big logo height */
+  margin-right: 60px; /* More space between logo and nav links */
+  
+  img {
+    height: 100%; /* Logo fills the container height */
+    width: auto; /* Maintain aspect ratio */
+    object-fit: contain; /* Ensure logo fits within bounds */
+  }
+}
+
+.landing-nav-links {
+  display: flex;
+  align-items: center;
+  justify-content: center; /* Center the nav links */
+  gap: 40px;
+  flex: 1; /* Take available space and center content */
+  margin: 0 60px; /* More space from logo and buttons */
+
+  a {
+    color: #333333;
+    text-decoration: none;
+    font-size: $font-size-base;
+    font-weight: 500;
+    transition: color 0.2s;
+
+    &:hover {
+      color: $primary-color;
+    }
+  }
+}
+
+.landing-nav-actions {
+  display: flex;
+  align-items: center;
+  gap: $spacing-md;
+  margin-left: 80px; /* Even more space - push buttons to extreme right */
+}
+
+/* Hero Section */
+.landing-hero {
+  padding: 80px 0 120px;
+  background-color: #ffffff;
+}
+
+.hero-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: center;
+}
+
+.hero-content {
+  text-align: left;
+}
+
+.hero-badge {
+  display: inline-block;
+  background-color: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(10px);
+  padding: $spacing-sm $spacing-md;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #1f2937;
+  margin-bottom: $spacing-lg;
+  border: 1.5px solid $primary-color;
+}
+
+.hero-title {
+  font-size: 64px;
+  font-weight: 800;
+  line-height: 1.1;
+  color: #0a0a0a;
+  margin-bottom: $spacing-lg;
+  letter-spacing: -0.03em;
+}
+
+.hero-description {
+  font-size: 19px;
+  color: #4b5563;
+  line-height: 1.7;
+  margin-bottom: 40px;
+  max-width: 520px;
+}
+
+.hero-buttons {
+  display: flex;
+  gap: $spacing-md;
+  margin-bottom: 40px;
+}
+
+.hero-trust {
+  display: flex;
+  align-items: center;
+  gap: $spacing-sm;
+}
+
+.trust-icon {
+  color: $error-color;
+  font-size: 8px;
+}
+
+.trust-text {
+  font-size: $font-size-sm;
+  color: #6b7280;
+  font-weight: 400;
+}
+
+.hero-visual {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.hero-image {
+  border-radius: 20px;
+  overflow: visible;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.3);
+  width: 100%;
+  max-width: 540px;
+  position: relative;
+
+  img {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 20px;
+  }
+}
+
+.hero-notification {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  right: 20px;
+  background-color: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border-radius: $border-radius-lg;
+  padding: 12px $spacing-md;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.2);
+}
+
+.notification-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  overflow: hidden;
+  flex-shrink: 0;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
+.notification-content {
+  flex: 1;
+}
+
+.notification-title {
+  font-size: $font-size-sm;
+  font-weight: 600;
+  color: #111827;
+  margin-bottom: 2px;
+}
+
+.notification-subtitle {
+  font-size: 12px;
+  color: #6b7280;
+}
+
+.notification-button {
+  background-color: #ff6b4a;
+  color: white;
+  border: none;
+  padding: $spacing-sm $spacing-md;
+  border-radius: $border-radius-md;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s;
+
+  &:hover {
+    background-color: #ff5533;
+  }
+}
+
+/* Stats Section - Enhanced for 3D Integration */
+.landing-stats {
+  padding: 60px 0;
+  background-color: #f9fafb;
+  border-bottom: 1px solid #f0f0f0;
+  /* Add 3D context */
+  transform-style: preserve-3d;
+  perspective: 1000px;
+}
+
+/* Legacy stats grid - will be replaced by Statistics3D */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 40px;
+  text-align: center;
+  /* Add 3D context for fallback */
+  transform-style: preserve-3d;
+}
+
+.stat-item {
+  padding: 20px;
+  /* Add 3D hover effects */
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: transform;
+
+  &:hover {
+    transform: translateY(-5px) translateZ(10px);
+  }
+}
+
+.stat-number {
+  font-size: 36px;
+  font-weight: 700;
+  color: $primary-color;
+  margin-bottom: $spacing-sm;
+}
+
+.stat-label {
+  font-size: $font-size-sm;
+  color: #6b7280;
+  font-weight: 500;
+}
+
+/* Section Headers */
+.section-header {
+  text-align: center;
+  max-width: 700px;
+  margin: 0 auto 80px;
+
+  h2 {
+    font-size: 40px;
+    font-weight: 700;
+    line-height: 1.2;
+    color: #111827;
+    margin-bottom: 20px;
+    letter-spacing: -0.025em;
+  }
+
+  p {
+    font-size: $font-size-lg;
+    color: #6b7280;
+    line-height: 1.6;
+  }
+}
+
+/* Features New Section - Enhanced for 3D Integration */
+.landing-features-new {
+  padding: 60px 0;
+  background-color: #f3f4f6;
+  /* Add 3D context */
+  transform-style: preserve-3d;
+  perspective: 1200px;
+}
+
+.features-new-header {
+  text-align: center;
+  max-width: 600px;
+  margin: 0 auto 40px;
+  /* Add subtle 3D lift */
+  transform: translateZ(5px);
+
+  h2 {
+    font-size: 36px;
+    font-weight: 700;
+    line-height: 1.2;
+    color: #111827;
+    margin-bottom: 12px;
+    letter-spacing: -0.025em;
+  }
+
+  p {
+    font-size: 15px;
+    color: #6b7280;
+    line-height: 1.6;
+  }
+}
+
+/* Legacy grid styles - will be replaced by Features3DGrid */
+.features-new-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: $spacing-md;
+  max-width: 1000px;
+  margin: 0 auto;
+  /* Add 3D context for fallback */
+  transform-style: preserve-3d;
+}
+
+.feature-new-card {
+  border-radius: $border-radius-lg;
+  padding: $spacing-lg;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s ease;
+  /* Add 3D enhancements */
+  will-change: transform;
+  backface-visibility: hidden;
+
+  &:hover {
+    transform: translateY(-4px) translateZ(10px);
+    box-shadow: 0 15px 30px -10px rgba(0, 0, 0, 0.2);
+  }
+
+  &.feature-large {
+    grid-column: span 2;
+    grid-row: span 1;
+  }
+
+  &.feature-teal {
+    background-color: $primary-color;
+    color: white;
+
+    h3 {
+      color: white;
+    }
+
+    p {
+      color: rgba(255, 255, 255, 0.9);
+    }
+  }
+
+  &.feature-light {
+    background-color: #ffffff;
+    border: 1px solid #e5e7eb;
+
+    .feature-new-icon {
+      background-color: #e0f2f1;
+      color: $primary-color;
+    }
+
+    h3 {
+      color: #111827;
+    }
+
+    p {
+      color: #6b7280;
+    }
+  }
+
+  &.feature-dark-image {
+    background-color: #1f2937;
+    padding: 0;
+    overflow: hidden;
+    border-radius: $border-radius-lg;
+
+    img {
+      width: 100%;
+      height: 100%;
+      min-height: 220px;
+      object-fit: cover;
+      display: block;
+    }
+  }
+
+  h3 {
+    font-size: $font-size-lg;
+    font-weight: 600;
+    line-height: 1.3;
+    margin: 0;
+  }
+
+  p {
+    font-size: $font-size-sm;
+    line-height: 1.5;
+    margin: 0;
+  }
+}
+
+.feature-new-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  background-color: rgba(255, 255, 255, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+}
+
+.feature-new-image {
+  margin-top: auto;
+  border-radius: 10px;
+  overflow: hidden;
+  height: 160px;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
+/* Story Section - Enhanced for 3D Statistics */
+.landing-story {
+  padding: 100px 0;
+  background-color: #f9fafb;
+  /* Add 3D context */
+  transform-style: preserve-3d;
+  perspective: 1000px;
+}
+
+.story-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: flex-start;
+}
+
+.story-heading {
+  h2 {
+    font-size: 48px;
+    font-weight: 700;
+    line-height: 1.15;
+    color: #111827;
+    letter-spacing: -0.025em;
+    /* Add subtle 3D depth */
+    transform: translateZ(5px);
+  }
+}
+
+.story-right {
+  display: flex;
+  flex-direction: column;
+  gap: 48px;
+  /* Add 3D context for statistics */
+  transform-style: preserve-3d;
+}
+
+.story-description {
+  p {
+    font-size: $font-size-base;
+    color: #6b7280;
+    line-height: 1.7;
+    margin-bottom: $spacing-md;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+}
+
+/* Legacy stats styles - will be replaced by Statistics3D */
+.story-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: $spacing-xl;
+  /* Add 3D context for fallback */
+  transform-style: preserve-3d;
+}
+
+.story-stat-item {
+  text-align: left;
+  /* Add 3D hover effects */
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: transform;
+
+  &:hover {
+    transform: translateY(-3px) translateZ(5px);
+  }
+}
+
+.story-stat-number {
+  font-size: 40px;
+  font-weight: 700;
+  color: #111827;
+  margin-bottom: $spacing-xs;
+}
+
+.story-stat-label {
+  font-size: 13px;
+  color: #6b7280;
+  font-weight: 500;
+}
+
+/* How It Works Section */
+.landing-how-it-works {
+  padding: 100px 0;
+  background-color: #f3f4f6;
+}
+
+.how-it-works-header {
+  text-align: center;
+  max-width: 700px;
+  margin: 0 auto 64px;
+
+  h2 {
+    font-size: 40px;
+    font-weight: 700;
+    line-height: 1.2;
+    color: #111827;
+    margin-bottom: 12px;
+    letter-spacing: -0.025em;
+  }
+
+  p {
+    font-size: $font-size-base;
+    color: #6b7280;
+    line-height: 1.6;
+  }
+}
+
+.how-it-works-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: $spacing-lg;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.how-it-works-card {
+  background-color: #ffffff;
+  padding: $spacing-xl 28px;
+  border-radius: $border-radius-lg;
+  text-align: left;
+  border: 1px solid #e5e7eb;
+
+  h3 {
+    font-size: $font-size-lg;
+    font-weight: 600;
+    color: #111827;
+    margin-bottom: 12px;
+    line-height: 1.3;
+  }
+
+  p {
+    font-size: $font-size-sm;
+    color: #6b7280;
+    line-height: 1.6;
+    margin: 0;
+  }
+}
+
+.how-it-works-number {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background-color: #fed7aa;
+  color: #9a3412;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: $font-size-base;
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+
+/* Testimonials Section */
+.landing-testimonials {
+  padding: 100px 0;
+  background-color: #ffffff;
+}
+
+.testimonials-header {
+  text-align: center;
+  margin-bottom: 64px;
+
+  h2 {
+    font-size: 40px;
+    font-weight: 700;
+    line-height: 1.2;
+    color: #111827;
+    letter-spacing: -0.025em;
+  }
+}
+
+.testimonials-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: $spacing-xl;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.testimonial-card {
+  background-color: #ffffff;
+  padding: $spacing-xl 28px;
+  border-radius: $border-radius-lg;
+  border: 1px solid #e5e7eb;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.testimonial-stars {
+  font-size: $font-size-base;
+  color: $warning-color;
+  letter-spacing: 2px;
+}
+
+.testimonial-text {
+  font-size: 15px;
+  color: #374151;
+  line-height: 1.6;
+  margin: 0;
+  flex: 1;
+}
+
+.testimonial-author {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: auto;
+}
+
+.testimonial-avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.testimonial-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.testimonial-name {
+  font-size: $font-size-sm;
+  font-weight: 600;
+  color: #111827;
+}
+
+.testimonial-meta {
+  font-size: 12px;
+  color: #6b7280;
+}
+
+/* CTA Section */
+.landing-cta {
+  padding: 120px 0;
+  background-color: $primary-color;
+}
+
+.cta-content {
+  text-align: center;
+  color: white;
+  max-width: 600px;
+  margin: 0 auto;
+
+  h2 {
+    font-size: 48px;
+    font-weight: 700;
+    margin-bottom: 20px;
+    color: white;
+    letter-spacing: -0.025em;
+    line-height: 1.2;
+  }
+
+  p {
+    font-size: 20px;
+    color: rgba(255, 255, 255, 0.9);
+    margin-bottom: 40px;
+    line-height: 1.6;
+  }
+
+  .btn-primary {
+    background-color: white;
+    color: $primary-color;
+    font-size: $font-size-lg;
+    font-weight: 600;
+    padding: $spacing-md $spacing-xl;
+
+    &:hover {
+      background-color: #f8f8f8;
+    }
+  }
+}
+
+/* Footer */
+.landing-footer {
+  background-color: #f9fafb;
+  border-top: 1px solid #e5e7eb;
+  padding: 64px 0 $spacing-xl;
+}
+
+.footer-content {
+  display: grid;
+  grid-template-columns: 1.5fr 2fr;
+  gap: 80px;
+  margin-bottom: 48px;
+}
+
+.footer-brand-section {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.footer-logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.footer-brand-name {
+  font-size: $font-size-lg;
+  font-weight: 600;
+  color: #111827;
+}
+
+.footer-tagline {
+  font-size: $font-size-sm;
+  color: #6b7280;
+  line-height: 1.6;
+  margin: 0;
+  max-width: 280px;
+}
+
+.footer-social {
+  display: flex;
+  gap: $spacing-md;
+
+  a {
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #6b7280;
+    transition: color 0.2s;
+
+    &:hover {
+      color: #111827;
+    }
+
+    svg {
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+  }
+}
+
+.footer-links-section {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 48px;
+}
+
+.footer-column {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-md;
+}
+
+.footer-column-title {
+  font-size: 12px;
+  font-weight: 600;
+  color: #111827;
+  letter-spacing: 0.05em;
+  margin: 0;
+}
+
+.footer-column-links {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+
+  a {
+    color: #6b7280;
+    text-decoration: none;
+    font-size: $font-size-sm;
+    transition: color 0.2s;
+
+    &:hover {
+      color: #111827;
+    }
+  }
+}
+
+.footer-bottom {
+  padding-top: $spacing-xl;
+  border-top: 1px solid #e5e7eb;
+  text-align: center;
+
+  p {
+    font-size: 13px;
+    color: #9ca3af;
+    margin: 0;
+  }
+}
+
+/* Reduced Motion Support */
+@media (prefers-reduced-motion: reduce) {
+  .landing-page {
+    .transform-3d-lift,
+    .transform-3d-tilt,
+    .shadow-3d-hover {
+      transition: none;
+      transform: none;
+    }
+    
+    .lighting-3d-directional::before {
+      display: none;
+    }
+    
+    perspective: none;
+    transform-style: flat;
+  }
+}
+
+/* Mobile 3D Optimizations */
+@media (max-width: 768px) {
+  .landing-page.transforms-enabled {
+    --perspective: 800px;
+    --depth-base: 5px;
+    --depth-hover: 10px;
+  }
+  
+  .landing-page .shadow-3d-heavy {
+    box-shadow: 
+      0 15px 30px -10px var(--shadow-color),
+      0 5px 10px -3px rgba(0, 0, 0, 0.1);
+  }
+  
+  .features-3d-enhanced {
+    perspective: 800px;
+  }
+  
+  .story-stats-3d,
+  .stats-grid-3d {
+    perspective: 600px;
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .hero-layout,
+  .story-layout {
+    grid-template-columns: 1fr;
+    gap: 60px;
+  }
+
+  .hero-content {
+    text-align: center;
+  }
+
+  .how-it-works-grid {
+    grid-template-columns: 1fr;
+    gap: $spacing-lg;
+  }
+
+  .testimonials-grid {
+    grid-template-columns: 1fr;
+    gap: $spacing-lg;
+  }
+
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: $spacing-xl;
+  }
+
+  .features-new-grid {
+    grid-template-columns: 1fr;
+    gap: $spacing-md;
+  }
+
+  .feature-large {
+    grid-column: span 1;
+    grid-row: span 1;
+  }
+
+  .feature-new-image {
+    height: 180px;
+  }
+
+  .hero-title {
+    font-size: 52px;
+  }
+
+  .hero-badge {
+    font-size: 12px;
+    padding: 6px $font-size-sm;
+  }
+
+  .section-header h2,
+  .tools-header h2,
+  .cta-content h2 {
+    font-size: 36px;
+  }
+}
+
+@media (max-width: 768px) {
+  .landing-nav-links {
+    display: none;
+  }
+
+  .landing-container {
+    padding: 0 20px;
+  }
+
+  .hero-title {
+    font-size: 42px;
+  }
+
+  .hero-description {
+    font-size: 17px;
+  }
+
+  .hero-badge {
+    font-size: 11px;
+    padding: 6px 12px;
+  }
+
+  .hero-notification {
+    padding: 10px 12px;
+    bottom: 15px;
+    left: 15px;
+    right: 15px;
+  }
+
+  .notification-avatar {
+    width: 36px;
+    height: 36px;
+  }
+
+  .notification-title {
+    font-size: 13px;
+  }
+
+  .notification-subtitle {
+    font-size: 11px;
+  }
+
+  .notification-button {
+    padding: 6px 12px;
+    font-size: 12px;
+  }
+
+  .hero-buttons {
+    flex-direction: column;
+    width: 100%;
+    gap: 12px;
+
+    .btn {
+      width: 100%;
+    }
+  }
+
+  .stats-grid {
+    grid-template-columns: 1fr;
+    gap: $spacing-lg;
+  }
+
+  .features-new-header h2 {
+    font-size: 32px;
+  }
+
+  .feature-new-card {
+    padding: $spacing-lg;
+
+    h3 {
+      font-size: 20px;
+    }
+  }
+
+  .feature-new-image {
+    height: 150px;
+  }
+
+  .feature-dark-image img {
+    min-height: 200px;
+  }
+
+  .section-header h2,
+  .cta-content h2 {
+    font-size: 32px;
+  }
+
+  .story-heading h2 {
+    font-size: 36px;
+  }
+
+  .story-stats {
+    grid-template-columns: repeat(3, 1fr);
+    gap: $spacing-lg;
+  }
+
+  .story-stat-number {
+    font-size: 32px;
+  }
+
+  .how-it-works-header h2 {
+    font-size: 32px;
+  }
+
+  .how-it-works-card {
+    padding: 28px $spacing-lg;
+  }
+
+  .how-it-works-number {
+    width: 32px;
+    height: 32px;
+    font-size: $font-size-sm;
+  }
+
+  .story-heading h2 {
+    font-size: 32px;
+  }
+
+  .story-description p {
+    font-size: 15px;
+  }
+
+  .story-stats {
+    grid-template-columns: 1fr;
+    gap: $spacing-lg;
+  }
+
+  .story-stat-number {
+    font-size: 36px;
+  }
+
+  .testimonials-header h2 {
+    font-size: 32px;
+  }
+
+  .testimonial-card {
+    padding: 28px $spacing-lg;
+  }
+
+  .footer-content {
+    grid-template-columns: 1fr;
+    gap: 48px;
+  }
+
+  .footer-links-section {
+    grid-template-columns: repeat(3, 1fr);
+    gap: $spacing-xl;
+  }
+
+  .footer-brand-section {
+    text-align: left;
+  }
+
+  .footer-tagline {
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 640px) {
+  .footer-content {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+
+  .footer-links-section {
+    grid-template-columns: 1fr;
+    gap: $spacing-xl;
+  }
+
+  .footer-brand-section {
+    align-items: flex-start;
+  }
+
+  .footer-social {
+    justify-content: flex-start;
+  }
+}

@@ -1,0 +1,14 @@
+.step-indicator {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 8px 0;
+}
+
+.step-indicator-text {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  color: #6b7280;
+  text-transform: uppercase;
+}

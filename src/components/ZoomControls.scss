@@ -1,0 +1,108 @@
+@use '../styles/variables' as *;
+@use '../styles/mixins' as *;
+
+.zoom-controls {
+  display: flex;
+  align-items: center;
+  gap: $spacing-sm;
+  background-color: white;
+  border-radius: $border-radius-md;
+  padding: $spacing-sm;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  position: fixed;
+  top: 80px;
+  right: $spacing-lg;
+  z-index: 100;
+  animation: slideInRight 0.3s ease-out;
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.zoom-btn {
+  width: 36px;
+  height: 36px;
+  min-width: 44px;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: transparent;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  cursor: pointer;
+  color: #334155;
+  transition: all 0.2s ease;
+  padding: 0;
+
+  &:hover:not(:disabled) {
+    background-color: #f1f5f9;
+    border-color: #cbd5e1;
+  }
+
+  &:active:not(:disabled) {
+    background-color: #e2e8f0;
+    transform: scale(0.95);
+  }
+
+  &:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+
+  @include focus-visible;
+}
+
+.zoom-display {
+  min-width: 50px;
+  text-align: center;
+  font-size: $font-size-sm;
+  font-weight: 600;
+  color: #334155;
+  padding: 0 $spacing-sm;
+  user-select: none;
+  transition: transform 0.2s ease;
+
+  &.zoom-changed {
+    animation: zoomPop 0.3s ease;
+  }
+}
+
+@keyframes zoomPop {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.15);
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .zoom-controls {
+    top: 60px;
+    right: $spacing-md;
+    padding: 6px;
+    gap: 6px;
+  }
+
+  .zoom-btn {
+    width: 32px;
+    height: 32px;
+    min-width: 44px;
+    min-height: 44px;
+  }
+
+  .zoom-display {
+    font-size: 13px;
+    min-width: 45px;
+  }
+}

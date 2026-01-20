@@ -1,0 +1,21 @@
+@use '../styles/variables' as *;
+
+.form-error {
+  display: flex;
+  align-items: center;
+  gap: $spacing-sm;
+  padding: 12px $spacing-md;
+  background-color: #fef2f2;
+  border: 1px solid #fecaca;
+  border-radius: $border-radius-md;
+  color: $error-color;
+  font-size: $font-size-sm;
+}
+
+.form-error-icon {
+  flex-shrink: 0;
+}
+
+.form-error-message {
+  flex: 1;
+}

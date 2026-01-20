@@ -1,0 +1,67 @@
+@use '../styles/variables' as *;
+
+.select-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: 100%;
+}
+
+.select-label {
+  font-size: $font-size-sm;
+  font-weight: 500;
+  color: #1f2937;
+  display: flex;
+  align-items: center;
+  gap: $spacing-xs;
+}
+
+.select-required {
+  color: $error-color;
+  font-weight: 600;
+}
+
+.select-field {
+  padding: 12px $spacing-md;
+  font-size: $font-size-base;
+  border: 1px solid #d1d5db;
+  border-radius: $border-radius-md;
+  font-family: inherit;
+  transition: all 0.2s ease;
+  width: 100%;
+  box-sizing: border-box;
+  background-color: white;
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%236b7280' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  padding-right: 40px;
+
+  &:focus {
+    outline: none;
+    border-color: $primary-color;
+    box-shadow: 0 0 0 3px rgba(13, 115, 119, 0.1);
+  }
+
+  &:focus-visible {
+    outline: 3px solid $primary-color;
+    outline-offset: 2px;
+    border-color: $primary-color;
+  }
+
+  &.select-error {
+    border-color: $error-color;
+
+    &:focus {
+      border-color: $error-color;
+      box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.1);
+    }
+  }
+}
+
+.select-error-message {
+  font-size: $font-size-sm;
+  color: $error-color;
+  margin-top: -2px;
+}

@@ -1,0 +1,37 @@
+@use '../styles/variables' as *;
+@use '../styles/mixins' as *;
+@use 'sass:color';
+
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: $spacing-sm;
+  color: $primary-color;
+  text-decoration: none;
+  font-size: $font-size-sm;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  padding: $spacing-sm 12px;
+  border-radius: 6px;
+  margin-bottom: $spacing-md;
+
+  &:hover {
+    background-color: #f0fdfa;
+    color: color.adjust($primary-color, $lightness: -10%);
+
+    .back-link-icon {
+      transform: translateX(-2px);
+    }
+  }
+
+  @include focus-visible;
+
+  &:active {
+    background-color: #ccfbf1;
+  }
+}
+
+.back-link-icon {
+  flex-shrink: 0;
+  transition: transform 0.2s ease;
+}

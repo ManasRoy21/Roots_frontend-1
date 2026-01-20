@@ -1,0 +1,64 @@
+.tree-statistics {
+  padding: 20px;
+  border-top: 1px solid #e5e7eb;
+  margin-top: 20px;
+}
+
+.tree-statistics-heading {
+  font-size: 14px;
+  font-weight: 600;
+  color: #374151;
+  margin: 0 0 16px 0;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.tree-statistics-content {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.tree-statistic-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px;
+  background-color: #f9fafb;
+  border-radius: 8px;
+}
+
+.tree-statistic-label {
+  font-size: 14px;
+  color: #6b7280;
+  font-weight: 500;
+}
+
+.tree-statistic-value {
+  font-size: 16px;
+  color: #111827;
+  font-weight: 600;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .tree-statistics {
+    padding: 16px;
+  }
+
+  .tree-statistics-heading {
+    font-size: 13px;
+  }
+
+  .tree-statistic-item {
+    padding: 10px;
+  }
+
+  .tree-statistic-label {
+    font-size: 13px;
+  }
+
+  .tree-statistic-value {
+    font-size: 15px;
+  }
+}

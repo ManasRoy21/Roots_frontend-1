@@ -1,0 +1,55 @@
+.invite-code-input-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: 100%;
+}
+
+.invite-code-input {
+  padding: 12px 16px;
+  font-size: 18px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-align: center;
+  text-transform: uppercase;
+  border: 2px solid #d1d5db;
+  border-radius: 8px;
+  font-family: 'Courier New', monospace;
+  transition: all 0.2s ease;
+  width: 100%;
+  box-sizing: border-box;
+
+  &:focus {
+    outline: none;
+    border-color: #0d7377;
+    box-shadow: 0 0 0 3px rgba(13, 115, 119, 0.1);
+  }
+
+  &:focus-visible {
+    outline: 3px solid #0d7377;
+    outline-offset: 2px;
+    border-color: #0d7377;
+  }
+
+  &::placeholder {
+    color: #9ca3af;
+    text-transform: none;
+    letter-spacing: normal;
+    font-weight: normal;
+  }
+
+  &.invite-code-error {
+    border-color: #dc2626;
+
+    &:focus {
+      border-color: #dc2626;
+      box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.1);
+    }
+  }
+}
+
+.invite-code-error-message {
+  font-size: 14px;
+  color: #dc2626;
+  text-align: center;
+}
