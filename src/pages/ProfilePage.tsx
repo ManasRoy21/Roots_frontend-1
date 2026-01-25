@@ -131,106 +131,84 @@ const ProfilePage: React.FC = () => {
         </button>
       </div>
 
-      {/* Enhanced Profile Hero Section */}
+      {/* Compact Profile Hero Section */}
       <div className="profile-hero">
         <div className="profile-background">
           <div className="background-overlay"></div>
           <img 
-            src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1400&h=500&fit=crop&crop=center" 
+            src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1400&h=300&fit=crop&crop=center" 
             alt="Profile background" 
             className="background-image"
           />
-          <div className="background-pattern"></div>
         </div>
         
         <div className="profile-content">
           <div className="profile-avatar-container">
             <div className="profile-avatar">
               <img 
-                src={user.photoUrl || `https://ui-avatars.com/api/?name=${user.firstName}+${user.lastName}&size=140&background=0d7377&color=fff&bold=true`}
+                src={user.photoUrl || `https://ui-avatars.com/api/?name=${user.firstName}+${user.lastName}&size=100&background=0d7377&color=fff&bold=true`}
                 alt={`${user.firstName} ${user.lastName}`}
                 className="avatar-image"
               />
-              <div className="avatar-ring"></div>
               <div className="avatar-status"></div>
             </div>
           </div>
           
           <div className="profile-info">
-            <div className="name-section">
-              <h1 className="profile-name">
-                <span className="first-name">{user.firstName}</span>
-                <span className="last-name">{user.lastName}</span>
-              </h1>
-              <div className="profile-badges">
-                <span className="profile-badge primary">GRANDFATHER</span>
-                <span className="profile-badge secondary">FAMILY HISTORIAN</span>
-              </div>
+            <h1 className="profile-name">
+              <span className="first-name">{user.firstName}</span>
+              <span className="last-name">{user.lastName}</span>
+            </h1>
+            <div className="profile-badges">
+              <span className="profile-badge primary">GRANDFATHER</span>
+              <span className="profile-badge secondary">HISTORIAN</span>
             </div>
-            
             <div className="profile-meta">
               <div className="meta-item location">
-                <div className="meta-icon">
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
-                    <circle cx="12" cy="10" r="3"/>
-                  </svg>
-                </div>
-                <div className="meta-content">
-                  <span className="meta-label">Location</span>
-                  <span className="meta-value">{user.placeOfBirth || 'Havana, Cuba'}</span>
-                </div>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                  <circle cx="12" cy="10" r="3"/>
+                </svg>
+                <span>{user.placeOfBirth || 'Havana, Cuba'}</span>
               </div>
-              
               <div className="meta-item birth">
-                <div className="meta-icon">
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
-                    <line x1="16" y1="2" x2="16" y2="6"/>
-                    <line x1="8" y1="2" x2="8" y2="6"/>
-                    <line x1="3" y1="10" x2="21" y2="10"/>
-                  </svg>
-                </div>
-                <div className="meta-content">
-                  <span className="meta-label">Born</span>
-                  <span className="meta-value">{user.dateOfBirth ? formatDate(user.dateOfBirth).split(',')[1] : '1934'}</span>
-                </div>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                  <line x1="16" y1="2" x2="16" y2="6"/>
+                  <line x1="8" y1="2" x2="8" y2="6"/>
+                  <line x1="3" y1="10" x2="21" y2="10"/>
+                </svg>
+                <span>Born {user.dateOfBirth ? formatDate(user.dateOfBirth).split(',')[1] : '1934'}</span>
               </div>
-              
               <div className="meta-item profession">
-                <div className="meta-icon">
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
-                  </svg>
-                </div>
-                <div className="meta-content">
-                  <span className="meta-label">Profession</span>
-                  <span className="meta-value">Writer & Poet</span>
-                </div>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+                </svg>
+                <span>Writer & Poet</span>
               </div>
             </div>
           </div>
           
           <div className="profile-actions">
-            <Button variant="outline" size="medium" onClick={handleShare} className="action-btn share-btn">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <Button variant="outline" size="small" onClick={handleShare} className="action-btn share-btn">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.367 2.684 3 3 0 00-5.367-2.684z"/>
               </svg>
               <span>Share</span>
             </Button>
             
-            <Button variant="outline" size="medium" onClick={handleMessage} className="action-btn message-btn">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <Button variant="outline" size="small" onClick={handleMessage} className="action-btn message-btn">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
               </svg>
               <span>Message</span>
             </Button>
             
-            <Button variant="primary" size="medium" onClick={handleEditProfile} className="action-btn edit-btn">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <Button variant="primary" size="small" onClick={handleEditProfile} className="action-btn edit-btn">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
               </svg>
-              <span>Edit Profile</span>
+              <span>Edit</span>
             </Button>
           </div>
         </div>
@@ -254,7 +232,7 @@ const ProfilePage: React.FC = () => {
               <div className="details-grid">
                 <div className="detail-card">
                   <div className="detail-icon">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
                     </svg>
                   </div>
@@ -266,7 +244,7 @@ const ProfilePage: React.FC = () => {
                 
                 <div className="detail-card">
                   <div className="detail-icon">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor">
                       <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
                       <line x1="16" y1="2" x2="16" y2="6"/>
                       <line x1="8" y1="2" x2="8" y2="6"/>
@@ -274,32 +252,29 @@ const ProfilePage: React.FC = () => {
                     </svg>
                   </div>
                   <div className="detail-content">
-                    <label className="detail-label">Date of Birth</label>
+                    <label className="detail-label">Age</label>
                     <p className="detail-value">
-                      {user.dateOfBirth ? 
-                        `${formatDate(user.dateOfBirth)} (${calculateAge(user.dateOfBirth)} years)` : 
-                        'September 14, 1934 (89 years)'
-                      }
+                      {user.dateOfBirth ? `${calculateAge(user.dateOfBirth)} years` : '89 years'}
                     </p>
                   </div>
                 </div>
                 
                 <div className="detail-card">
                   <div className="detail-icon">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
                       <circle cx="12" cy="10" r="3"/>
                     </svg>
                   </div>
                   <div className="detail-content">
-                    <label className="detail-label">Place of Birth</label>
+                    <label className="detail-label">Location</label>
                     <p className="detail-value">{user.placeOfBirth || 'Havana, Cuba'}</p>
                   </div>
                 </div>
                 
                 <div className="detail-card">
                   <div className="detail-icon">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor">
                       <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
                       <line x1="8" y1="21" x2="16" y2="21"/>
                       <line x1="12" y1="17" x2="12" y2="21"/>
@@ -313,29 +288,28 @@ const ProfilePage: React.FC = () => {
               </div>
               
               <div className="interests-section">
-                <h3 className="interests-title">Interests & Hobbies</h3>
+                <h3 className="interests-title">Interests</h3>
                 <div className="interests-tags">
                   <span className="interest-tag poetry">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
                     </svg>
                     Poetry
                   </span>
                   <span className="interest-tag baseball">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor">
                       <circle cx="12" cy="12" r="10"/>
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8.56 2.75c4.37 6.03 6.02 9.42 8.03 17.72m2.54-15.38c-3.72 4.35-8.94 5.66-16.88 5.85m19.5 1.9c-3.5-.93-6.63-.82-8.94 0-2.58.92-5.01 2.86-7.44 6.32"/>
                     </svg>
                     Baseball
                   </span>
                   <span className="interest-tag jazz">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3"/>
                     </svg>
                     Jazz
                   </span>
                   <span className="interest-tag history">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor">
                       <circle cx="12" cy="12" r="10"/>
                       <polyline points="12,6 12,12 16,14"/>
                     </svg>
@@ -363,11 +337,11 @@ const ProfilePage: React.FC = () => {
               </div>
               
               <div className="family-grid">
-                {/* Mock family members with enhanced design */}
+                {/* Compact family members */}
                 <div className="family-member featured">
                   <div className="member-avatar">
                     <img 
-                      src="https://images.unsplash.com/photo-1494790108755-2616b612b786?w=100&h=100&fit=crop&crop=face" 
+                      src="https://images.unsplash.com/photo-1494790108755-2616b612b786?w=60&h=60&fit=crop&crop=face" 
                       alt="Elena"
                     />
                     <div className="member-status spouse"></div>
@@ -375,11 +349,11 @@ const ProfilePage: React.FC = () => {
                   <div className="member-info">
                     <h3 className="member-name">Elena Rivera</h3>
                     <p className="member-relation">Spouse</p>
-                    <p className="member-years">Married 1956</p>
+                    <p className="member-years">Since 1956</p>
                   </div>
                   <div className="member-actions">
                     <button className="member-action-btn">
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
                       </svg>
                     </button>
@@ -389,7 +363,7 @@ const ProfilePage: React.FC = () => {
                 <div className="family-member">
                   <div className="member-avatar">
                     <img 
-                      src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop&crop=face" 
+                      src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=60&h=60&fit=crop&crop=face" 
                       alt="Javier"
                     />
                     <div className="member-status son"></div>
@@ -401,7 +375,7 @@ const ProfilePage: React.FC = () => {
                   </div>
                   <div className="member-actions">
                     <button className="member-action-btn">
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
                       </svg>
                     </button>
@@ -411,7 +385,7 @@ const ProfilePage: React.FC = () => {
                 <div className="family-member">
                   <div className="member-avatar">
                     <img 
-                      src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop&crop=face" 
+                      src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=60&h=60&fit=crop&crop=face" 
                       alt="Alex"
                     />
                     <div className="member-status grandson"></div>
@@ -423,18 +397,18 @@ const ProfilePage: React.FC = () => {
                   </div>
                   <div className="member-actions">
                     <button className="member-action-btn">
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
                       </svg>
                     </button>
                   </div>
                 </div>
                 
-                {immediateFamily.map((member) => (
+                {immediateFamily.slice(0, 2).map((member) => (
                   <div key={member.id} className="family-member">
                     <div className="member-avatar">
                       <img 
-                        src={member.photoUrl || `https://ui-avatars.com/api/?name=${member.firstName}+${member.lastName}&size=100&background=0d7377&color=fff`}
+                        src={member.photoUrl || `https://ui-avatars.com/api/?name=${member.firstName}+${member.lastName}&size=60&background=0d7377&color=fff`}
                         alt={`${member.firstName} ${member.lastName}`}
                       />
                       <div className={`member-status ${member.relationshipType}`}></div>
@@ -445,7 +419,7 @@ const ProfilePage: React.FC = () => {
                     </div>
                     <div className="member-actions">
                       <button className="member-action-btn">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
                         </svg>
                       </button>
@@ -457,7 +431,7 @@ const ProfilePage: React.FC = () => {
               <div className="family-stats">
                 <div className="stat-item">
                   <span className="stat-number">12</span>
-                  <span className="stat-label">Family Members</span>
+                  <span className="stat-label">Members</span>
                 </div>
                 <div className="stat-item">
                   <span className="stat-number">3</span>
