@@ -228,6 +228,99 @@ All endpoints (except auth/register and auth/login) require Bearer token authent
 
 ---
 
+## Friends & Relatives Import Endpoints
+
+### 1. Get Existing Friends (Not in Family Tree)
+- **Method:** `GET`
+- **Endpoint:** `/family/existing-friends`
+- **Description:** Get all registered users who are not part of the current user's family tree
+- **Authentication:** Required
+- **Response:** Array of user objects
+  ```json
+  [
+    {
+      "id": "user123",
+      "firstName": "Maria",
+      "lastName": "Garcia",
+      "email": "maria.garcia@example.com",
+      "photoUrl": "https://cdn.example.com/photos/maria.jpg"
+    }
+  ]
+  ```
+- **Use Case:** For adding existing app users as relatives
+- **Retry Logic:** 3 retries with exponential backoff
+- **Error Codes:**
+  - `401` - Authentication required
+  - `500` - Server error
+
+### 2. Get Friend Details by ID
+- **Method:** `GET`
+- **Endpoint:** `/family/friends/{friendId}`
+- **Description:** Get detailed information for a specific friend (existing user not in family tree)
+- **Authentication:** Required
+- **Path Parameters:**
+  - `friendId` (string) - User ID of the friend
+- **Response:** Detailed friend object
+  ```json
+  {
+    "id": "user123",
+    "firstName": "Maria",
+    "lastName": "Garcia",
+    "email": "maria.garcia@example.com",
+    "phoneNumber": "+1234567890",
+    "dateOfBirth": "1990-05-15",
+    "gender": "female",
+    "photoUrl": "https://cdn.example.com/photos/maria.jpg",
+    "biography": "Family enthusiast",
+    "occupation": "Teacher",
+    "location": "New York, NY"
+  }
+  ```
+- **Use Case:** Import detailed profile information when adding friend as relative
+- **Retry Logic:** 3 retries with exponential backoff
+- **Error Codes:**
+  - `401` - Authentication required
+  - `404` - Friend not found
+  - `500` - Server error
+
+### 3. Get Relative Details by ID
+- **Method:** `GET`
+- **Endpoint:** `/family/relatives/{relativeId}`
+- **Description:** Get detailed information for a specific relative (family member in tree)
+- **Authentication:** Required
+- **Path Parameters:**
+  - `relativeId` (string) - Family member ID
+- **Response:** Detailed family member object
+  ```json
+  {
+    "id": "member123",
+    "userId": "user456",
+    "firstName": "John",
+    "lastName": "Doe",
+    "email": "john.doe@example.com",
+    "phoneNumber": "+1234567890",
+    "dateOfBirth": "1985-03-20",
+    "dateOfDeath": null,
+    "gender": "male",
+    "photoUrl": "https://cdn.example.com/photos/john.jpg",
+    "biography": "Loving father and husband",
+    "occupation": "Engineer",
+    "location": "San Francisco, CA",
+    "isDeceased": false,
+    "createdBy": "user789",
+    "createdAt": "2024-01-15T10:30:00Z",
+    "updatedAt": "2024-01-20T14:45:00Z"
+  }
+  ```
+- **Use Case:** Import detailed profile information for existing family members
+- **Retry Logic:** 3 retries with exponential backoff
+- **Error Codes:**
+  - `401` - Authentication required
+  - `404` - Relative not found
+  - `500` - Server error
+
+---
+
 ## Invitation Endpoints
 
 ### 1. Validate Invite Code

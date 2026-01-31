@@ -207,6 +207,130 @@ const FamilyService = {
       throw new Error(error.message || 'Failed to fetch relationships');
     }
   },
+
+  /**
+   * Get all existing users (friends) who are not part of the current family tree
+   * @returns List of existing users available to add as relatives
+   */
+  async getExistingFriends(): Promise<Array<{
+    id: string;
+    firstName: string;
+    lastName: string;
+    email: string;
+    photoUrl?: string;
+  }>> {
+    try {
+      return await retryWithBackoff(async () => {
+        const token = localStorage.getItem('accessToken');
+        const response = await axios.get(`${API_BASE_URL}/family/existing-friends`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        return response.data;
+      });
+    } catch (error: any) {
+      // Handle authentication errors
+      if (error.response?.status === 401) {
+        throw new Error('Authentication required');
+      }
+      // Handle server errors
+      if (error.response?.status >= 500) {
+        throw new Error('Server error. Please try again later.');
+      }
+      // Handle network errors
+      if (!error.response) {
+        throw new Error('Network error. Please check your connection and try again.');
+      }
+      throw new Error(error.message || 'Failed to fetch existing friends');
+    }
+  },
+
+  /**
+   * Get detailed information for a specific friend by ID
+   * @param friendId - Friend's user ID
+   * @returns Detailed friend information
+   */
+  async getFriendDetails(friendId: string): Promise<{
+    id: string;
+    firstName: string;
+    lastName: string;
+    email: string;
+    phoneNumber?: string;
+    dateOfBirth?: string;
+    gender?: string;
+    photoUrl?: string;
+    biography?: string;
+    occupation?: string;
+    location?: string;
+  }> {
+    try {
+      return await retryWithBackoff(async () => {
+        const token = localStorage.getItem('accessToken');
+        const response = await axios.get(`${API_BASE_URL}/family/friends/${friendId}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        return response.data;
+      });
+    } catch (error: any) {
+      // Handle not found errors
+      if (error.response?.status === 404) {
+        throw new Error('Friend not found');
+      }
+      // Handle authentication errors
+      if (error.response?.status === 401) {
+        throw new Error('Authentication required');
+      }
+      // Handle server errors
+      if (error.response?.status >= 500) {
+        throw new Error('Server error. Please try again later.');
+      }
+      // Handle network errors
+      if (!error.response) {
+        throw new Error('Network error. Please check your connection and try again.');
+      }
+      throw new Error(error.message || 'Failed to fetch friend details');
+    }
+  },
+
+  /**
+   * Get detailed information for a specific relative (family member) by ID
+   * @param relativeId - Relative's member ID
+   * @returns Detailed relative information
+   */
+  async getRelativeDetails(relativeId: string): Promise<FamilyMember> {
+    try {
+      return await retryWithBackoff(async () => {
+        const token = localStorage.getItem('accessToken');
+        const response = await axios.get<FamilyMember>(`${API_BASE_URL}/family/relatives/${relativeId}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        return response.data;
+      });
+    } catch (error: any) {
+      // Handle not found errors
+      if (error.response?.status === 404) {
+        throw new Error('Relative not found');
+      }
+      // Handle authentication errors
+      if (error.response?.status === 401) {
+        throw new Error('Authentication required');
+      }
+      // Handle server errors
+      if (error.response?.status >= 500) {
+        throw new Error('Server error. Please try again later.');
+      }
+      // Handle network errors
+      if (!error.response) {
+        throw new Error('Network error. Please check your connection and try again.');
+      }
+      throw new Error(error.message || 'Failed to fetch relative details');
+    }
+  },
 };
 
 export default FamilyService;

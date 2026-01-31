@@ -9,6 +9,8 @@ import SignInPage from './pages/SignInPage';
 import ForgotPasswordPage from './pages/ForgotPasswordPage';
 import ResetPasswordPage from './pages/ResetPasswordPage';
 import ProfileSetupPage from './pages/ProfileSetupPage';
+import ProfilePage from './pages/ProfilePage';
+import EditProfilePage from './pages/EditProfilePage';
 import OnboardingSuccessPage from './pages/OnboardingSuccessPage';
 import DashboardPage from './pages/DashboardPage';
 import AddFamilyMemberPage from './pages/AddFamilyMemberPage';
@@ -56,6 +58,22 @@ function App(): React.ReactElement {
               element={
                 <ProtectedRoute>
                   <ProfileSetupPage />
+                </ProtectedRoute>
+              } 
+            />
+            <Route 
+              path="/profile" 
+              element={
+                <ProtectedRoute>
+                  <ProfilePage />
+                </ProtectedRoute>
+              } 
+            />
+            <Route 
+              path="/edit-profile" 
+              element={
+                <ProtectedRoute>
+                  <EditProfilePage />
                 </ProtectedRoute>
               } 
             />
