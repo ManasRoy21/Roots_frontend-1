@@ -214,6 +214,7 @@ const FamilyService = {
    */
   async getExistingFriends(): Promise<Array<{
     id: string;
+    userId?: string;
     firstName: string;
     lastName: string;
     email: string;
@@ -329,6 +330,56 @@ const FamilyService = {
         throw new Error('Network error. Please check your connection and try again.');
       }
       throw new Error(error.message || 'Failed to fetch relative details');
+    }
+  },
+
+  /**
+   * Send a friend request to another user by User ID
+   * @param userId - User ID of the user to send request to
+   * @returns Success response
+   */
+  async sendFriendRequest(userId: string): Promise<{ message: string }> {
+    try {
+      return await retryWithBackoff(async () => {
+        const token = localStorage.getItem('accessToken');
+        const response = await axios.post(
+          `${API_BASE_URL}/family/friend-requests`,
+          { userId },
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              'Content-Type': 'application/json',
+            },
+          }
+        );
+        return response.data;
+      });
+    } catch (error: any) {
+      // Handle validation errors
+      if (error.response?.status === 400) {
+        throw new Error(error.response.data.message || 'Invalid User ID');
+      }
+      // Handle not found errors
+      if (error.response?.status === 404) {
+        throw new Error('User not found. Please check the User ID.');
+      }
+      // Handle conflict errors (already friends or request pending)
+      if (error.response?.status === 409) {
+        throw new Error(error.response.data.message || 'Friend request already exists');
+      }
+      // Handle authentication errors
+      if (error.response?.status === 401) {
+        throw new Error('Authentication required');
+      }
+      // Handle server errors
+      if (error.response?.status >= 500) {
+        throw new Error('Server error. Please try again later.');
+      }
+      // Handle network errors
+      if (!error.response) {
+        throw new Error('Network error. Please check your connection and try again.');
+      }
+      throw new Error(error.message || 'Failed to send friend request');
     }
   },
 };

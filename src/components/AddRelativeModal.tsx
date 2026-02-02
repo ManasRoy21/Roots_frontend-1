@@ -8,6 +8,7 @@ interface AddRelativeFormData {
   relationship: 'parent' | 'spouse' | 'child' | 'sibling';
   firstName: string;
   lastName: string;
+  userId: string;
   birthYear: string;
   status: 'living' | 'deceased';
   tag: string;
@@ -17,6 +18,7 @@ interface AddRelativeFormData {
 // Mock existing user interface
 interface ExistingUser {
   id: string;
+  userId?: string; // Optional for backward compatibility
   firstName: string;
   lastName: string;
   email: string;
@@ -34,18 +36,25 @@ const AddRelativeModal: React.FC<AddRelativeModalProps> = ({
     ? `${relatedToMember.firstName || ''} ${relatedToMember.lastName || ''}`.trim() || 'User'
     : 'User';
 
-  const [mode, setMode] = useState<'new' | 'existing'>('new');
+  const [mode, setMode] = useState<'new' | 'existing' | 'request'>('new');
   const [searchQuery, setSearchQuery] = useState('');
   const [searchResults, setSearchResults] = useState<ExistingUser[]>([]);
   const [selectedUser, setSelectedUser] = useState<ExistingUser | null>(null);
   const [existingFriends, setExistingFriends] = useState<ExistingUser[]>([]);
   const [loadingFriends, setLoadingFriends] = useState(false);
   const [friendsError, setFriendsError] = useState<string | null>(null);
+  
+  // Friend request state
+  const [friendRequestInput, setFriendRequestInput] = useState('');
+  const [sendingRequest, setSendingRequest] = useState(false);
+  const [requestSuccess, setRequestSuccess] = useState(false);
+  const [requestError, setRequestError] = useState<string | null>(null);
 
   const [formData, setFormData] = useState<AddRelativeFormData>({
     relationship: relationshipType || 'parent',
     firstName: '',
     lastName: '',
+    userId: '',
     birthYear: '',
     status: 'living',
     tag: '',
@@ -84,8 +93,8 @@ const AddRelativeModal: React.FC<AddRelativeModalProps> = ({
   useEffect(() => {
     if (mode === 'existing' && searchQuery.trim().length > 0) {
       const filtered = existingFriends.filter(user => 
-        `${user.firstName} ${user.lastName}`.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        user.email.toLowerCase().includes(searchQuery.toLowerCase())
+        (user.userId && user.userId.toLowerCase().includes(searchQuery.toLowerCase())) ||
+        `${user.firstName} ${user.lastName}`.toLowerCase().includes(searchQuery.toLowerCase())
       );
       setSearchResults(filtered);
     } else {
@@ -95,11 +104,14 @@ const AddRelativeModal: React.FC<AddRelativeModalProps> = ({
 
   if (!isOpen) return null;
 
-  const handleModeToggle = (newMode: 'new' | 'existing'): void => {
+  const handleModeToggle = (newMode: 'new' | 'existing' | 'request'): void => {
     setMode(newMode);
     setSearchQuery('');
     setSearchResults([]);
     setSelectedUser(null);
+    setFriendRequestInput('');
+    setRequestSuccess(false);
+    setRequestError(null);
   };
 
   const handleRelationshipChange = (relationship: AddRelativeFormData['relationship']): void => {
@@ -131,6 +143,34 @@ const AddRelativeModal: React.FC<AddRelativeModalProps> = ({
     setSelectedUser(user);
   };
 
+  const handleSendFriendRequest = async (): Promise<void> => {
+    if (!friendRequestInput.trim()) {
+      setRequestError('Please enter a username or email');
+      return;
+    }
+
+    setSendingRequest(true);
+    setRequestError(null);
+    setRequestSuccess(false);
+
+    try {
+      // TODO: Implement API call to send friend request
+      await FamilyService.sendFriendRequest(friendRequestInput.trim());
+      setRequestSuccess(true);
+      setFriendRequestInput('');
+      
+      // Auto-clear success message after 3 seconds
+      setTimeout(() => {
+        setRequestSuccess(false);
+      }, 3000);
+    } catch (error: any) {
+      console.error('Failed to send friend request:', error);
+      setRequestError(error.message || 'Failed to send friend request. Please try again.');
+    } finally {
+      setSendingRequest(false);
+    }
+  };
+
   const handleSubmit = (): void => {
     if (mode === 'existing' && selectedUser) {
       // Handle adding existing user
@@ -159,6 +199,7 @@ const AddRelativeModal: React.FC<AddRelativeModalProps> = ({
       relationship: 'parent',
       firstName: '',
       lastName: '',
+      userId: '',
       birthYear: '',
       status: 'living',
       tag: '',
@@ -168,6 +209,9 @@ const AddRelativeModal: React.FC<AddRelativeModalProps> = ({
     setSearchQuery('');
     setSearchResults([]);
     setSelectedUser(null);
+    setFriendRequestInput('');
+    setRequestSuccess(false);
+    setRequestError(null);
     onClose();
   };
 
@@ -210,61 +254,143 @@ const AddRelativeModal: React.FC<AddRelativeModalProps> = ({
               </svg>
               Find Existing User
             </button>
+            <button
+              type="button"
+              className={`mode-toggle-btn ${mode === 'request' ? 'active' : ''}`}
+              onClick={() => handleModeToggle('request')}
+            >
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M10 5.83333V10L12.5 12.5M17.5 10C17.5 14.1421 14.1421 17.5 10 17.5C5.85786 17.5 2.5 14.1421 2.5 10C2.5 5.85786 5.85786 2.5 10 2.5C14.1421 2.5 17.5 5.85786 17.5 10Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+              Send Friend Request
+            </button>
           </div>
 
-          {/* Relationship Selection - Common for both modes */}
-          <div className="form-group">
-            <label className="form-label">Relationship to {userName.split(' ')[0]}</label>
-            <div className="relationship-buttons">
-              <button
-                type="button"
-                className={`relationship-btn ${formData.relationship === 'parent' ? 'active' : ''}`}
-                onClick={() => handleRelationshipChange('parent')}
-              >
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 10l7-7m0 0l7 7m-7-7v18" />
-                </svg>
-                <span>Parent</span>
-              </button>
-              <button
-                type="button"
-                className={`relationship-btn ${formData.relationship === 'spouse' ? 'active' : ''}`}
-                onClick={() => handleRelationshipChange('spouse')}
-              >
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-                </svg>
-                <span>Spouse</span>
-              </button>
-              <button
-                type="button"
-                className={`relationship-btn ${formData.relationship === 'child' ? 'active' : ''}`}
-                onClick={() => handleRelationshipChange('child')}
-              >
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
-                </svg>
-                <span>Child</span>
-              </button>
-              <button
-                type="button"
-                className={`relationship-btn ${formData.relationship === 'sibling' ? 'active' : ''}`}
-                onClick={() => handleRelationshipChange('sibling')}
-              >
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
-                </svg>
-                <span>Sibling</span>
-              </button>
+          {/* Relationship Selection - Only for 'new' and 'existing' modes */}
+          {mode !== 'request' && (
+            <div className="form-group">
+              <label className="form-label">Relationship to {userName.split(' ')[0]}</label>
+              <div className="relationship-buttons">
+                <button
+                  type="button"
+                  className={`relationship-btn ${formData.relationship === 'parent' ? 'active' : ''}`}
+                  onClick={() => handleRelationshipChange('parent')}
+                >
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 10l7-7m0 0l7 7m-7-7v18" />
+                  </svg>
+                  <span>Parent</span>
+                </button>
+                <button
+                  type="button"
+                  className={`relationship-btn ${formData.relationship === 'spouse' ? 'active' : ''}`}
+                  onClick={() => handleRelationshipChange('spouse')}
+                >
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                  </svg>
+                  <span>Spouse</span>
+                </button>
+                <button
+                  type="button"
+                  className={`relationship-btn ${formData.relationship === 'child' ? 'active' : ''}`}
+                  onClick={() => handleRelationshipChange('child')}
+                >
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+                  </svg>
+                  <span>Child</span>
+                </button>
+                <button
+                  type="button"
+                  className={`relationship-btn ${formData.relationship === 'sibling' ? 'active' : ''}`}
+                  onClick={() => handleRelationshipChange('sibling')}
+                >
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
+                  </svg>
+                  <span>Sibling</span>
+                </button>
+              </div>
             </div>
-          </div>
+          )}
 
           {/* Conditional Content Based on Mode */}
-          {mode === 'existing' ? (
+          {mode === 'request' ? (
+            <>
+              {/* Friend Request Section - Discord Style */}
+              <div className="friend-request-section">
+                <div className="friend-request-header">
+                  <h3 className="friend-request-title">Add Friend</h3>
+                  <p className="friend-request-description">
+                    You can add a friend with their unique User ID. They'll receive a friend request to connect their family tree with yours.
+                  </p>
+                </div>
+
+                <div className="form-group">
+                  <div className="friend-request-input-wrapper">
+                    <input
+                      type="text"
+                      className="form-input friend-request-input"
+                      placeholder="Enter User ID (e.g., user123abc)"
+                      value={friendRequestInput}
+                      onChange={(e) => setFriendRequestInput(e.target.value.toLowerCase())}
+                      onKeyPress={(e) => {
+                        if (e.key === 'Enter' && !sendingRequest) {
+                          handleSendFriendRequest();
+                        }
+                      }}
+                      disabled={sendingRequest}
+                    />
+                    <button
+                      type="button"
+                      className="friend-request-send-btn"
+                      onClick={handleSendFriendRequest}
+                      disabled={sendingRequest || !friendRequestInput.trim()}
+                    >
+                      {sendingRequest ? 'Sending...' : 'Send Request'}
+                    </button>
+                  </div>
+                  
+                  {requestError && (
+                    <div className="request-message error">
+                      <svg width="16" height="16" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M10 17.5C14.1421 17.5 17.5 14.1421 17.5 10C17.5 5.85786 14.1421 2.5 10 2.5C5.85786 2.5 2.5 5.85786 2.5 10C2.5 14.1421 5.85786 17.5 10 17.5Z" stroke="currentColor" strokeWidth="2"/>
+                        <path d="M10 6.66666V10" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+                        <path d="M10 13.3333H10.0083" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+                      </svg>
+                      {requestError}
+                    </div>
+                  )}
+                  
+                  {requestSuccess && (
+                    <div className="request-message success">
+                      <svg width="16" height="16" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M16.6667 5L7.50004 14.1667L3.33337 10" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                      </svg>
+                      Friend request sent successfully!
+                    </div>
+                  )}
+                </div>
+
+                <div className="friend-request-info">
+                  <div className="info-card">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                    </svg>
+                    <div>
+                      <h4>How it works</h4>
+                      <p>Enter the person's unique User ID to send them a friend request. Once they accept, you can add them to your family tree with the appropriate relationship.</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </>
+          ) : mode === 'existing' ? (
             <>
               {/* Search Bar */}
               <div className="form-group">
-                <label className="form-label" htmlFor="userSearch">Search for existing user</label>
+                <label className="form-label" htmlFor="userSearch">Search by User ID</label>
                 <div className="search-input-wrapper">
                   <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" className="search-icon">
                     <path d="M17.5 17.5L13.875 13.875M15.8333 9.16667C15.8333 12.8486 12.8486 15.8333 9.16667 15.8333C5.48477 15.8333 2.5 12.8486 2.5 9.16667C2.5 5.48477 5.48477 2.5 9.16667 2.5C12.8486 2.5 15.8333 5.48477 15.8333 9.16667Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
@@ -273,7 +399,7 @@ const AddRelativeModal: React.FC<AddRelativeModalProps> = ({
                     type="text"
                     id="userSearch"
                     className="form-input search-input"
-                    placeholder="Search by name or email..."
+                    placeholder="Search by User ID..."
                     value={searchQuery}
                     onChange={handleSearchChange}
                     disabled={loadingFriends}
@@ -313,7 +439,7 @@ const AddRelativeModal: React.FC<AddRelativeModalProps> = ({
                         </div>
                         <div className="user-info">
                           <div className="user-name">{user.firstName} {user.lastName}</div>
-                          <div className="user-email">{user.email}</div>
+                          <div className="user-id">{user.userId ? `@${user.userId}` : user.email}</div>
                         </div>
                         {selectedUser?.id === user.id && (
                           <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" className="check-icon">
@@ -329,7 +455,7 @@ const AddRelativeModal: React.FC<AddRelativeModalProps> = ({
                         <path d="M21 21l-4.35-4.35" strokeWidth="2" strokeLinecap="round"/>
                       </svg>
                       <p>No users found</p>
-                      <span>Try searching with a different name or email</span>
+                      <span>Try searching with a different User ID or name</span>
                     </div>
                   )}
                 </div>
@@ -363,6 +489,29 @@ const AddRelativeModal: React.FC<AddRelativeModalProps> = ({
                     onChange={handleInputChange}
                   />
                 </div>
+              </div>
+
+              {/* User ID Field */}
+              <div className="form-group">
+                <label className="form-label" htmlFor="userId">
+                  User ID <span className="label-hint">(Unique alphanumeric identifier)</span>
+                </label>
+                <input
+                  type="text"
+                  id="userId"
+                  name="userId"
+                  className="form-input"
+                  placeholder="e.g. user123abc"
+                  value={formData.userId}
+                  onChange={(e) => {
+                    const value = e.target.value.toLowerCase().replace(/[^a-z0-9]/g, '');
+                    setFormData({ ...formData, userId: value });
+                  }}
+                  maxLength={20}
+                />
+                <p className="field-hint">
+                  This unique ID will be used to identify this person. Only letters and numbers allowed.
+                </p>
               </div>
 
               {/* Birth Year and Status */}
